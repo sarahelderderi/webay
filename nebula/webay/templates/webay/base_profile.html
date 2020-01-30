@@ -1,0 +1,39 @@
+{% extends 'webay/base.html' %}
+{% block body_block %}
+<div class="container">
+    <div class="row pt-4">
+        <p class="h2"> {{user.username}} </p>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-3 text-center">
+            <img class="img-fluid rounded-circle avatar" height="200" width="200" id="userProfilePic"
+                 src="{{user.profile.profile_pic.url}}" alt="profile_picture"/>
+            <form id="updateProfilePic" enctype="multipart/form-data" method="POST">
+                {% csrf_token %}
+                <input type="file" id="img_file" class="h6 small file-upload">
+            </form>
+            <div class="col">
+                <a class="btn btn-outline-info text-info my-sm-2" href="{% url 'webay:profile' %}">Edit Profile</a>
+            </div>
+            <div class="col">
+                <a class="btn btn-outline-info text-info my-sm-2" href="{% url 'webay:additem' %}">Add Item</a>
+
+            </div>
+            <div class="col">
+                <a class="btn btn-outline-info text-info my-sm-2" href="{% url 'webay:display_my_items' %}">My Items</a>
+            </div>
+            <div class="col">
+                <a id="notificationBtn" class="btn btn-outline-info text-info my-sm-2"
+                   href="{% url 'webay:display_notifications' %}">Notifications</a>
+            </div>
+        </div>
+        <div id="base_profile_content" class="col-9 pl-5">
+            <div class="container">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

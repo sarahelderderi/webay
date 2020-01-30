@@ -1,0 +1,23 @@
+<h1>Search Results</h1>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Image</th>
+        <th scope="col">Item Title</th>
+        <th scope="col">End Date/Time</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% if itemSearch.count > 0 %}
+    {% for item in itemSearch %}
+    <tr>
+        <td><img class="img-thumbnail img-fluid" height="100" width="100" src="{{ item.item_pic.url }}"/></td>
+        <td><a href="{% url 'webay:item-detail' item.id %}">{{ item.title }}</a></td>
+        <td>{{ item.end_datetime|date:"F d, Y" }}</td>
+    </tr>
+    {% endfor %}
+    {% else %}
+    <td> No results</td>
+    {% endif %}
+    </tbody>
+</table>

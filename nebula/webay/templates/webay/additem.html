@@ -1,0 +1,13 @@
+{% extends "webay/base_profile.html" %}
+{% block content %}
+{% load crispy_forms_tags %}
+<div class="jumbotron">
+    <h3>Fill out the form to add an item.</h3>
+    <form enctype="multipart/form-data" method="POST">
+        {% csrf_token %}
+        {{ itemForm|crispy }}
+        {{ itemImageForm|crispy }}
+        <input class="btn btn-info" type="submit" value="submit">
+    </form>
+</div>
+{% endblock %}

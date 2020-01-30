@@ -1,0 +1,33 @@
+{% extends 'webay/base.html' %}
+{% block body_block %}
+<div id="searchBar" class="row pt-1">
+    <form class="mx-2 my-auto w-50" method="post" action="{% url 'webay:search' %}">
+        {% csrf_token %}
+        <div class="input-group">
+            <input id="search" type="text" name="search" class="form-control border border-right-0"
+                   placeholder="Search...">
+            <span class="input-group-append">
+                <button id="searchButton" class="btn btn-outline-info my-sm-0" type="submit">Search</button>
+              </span>
+        </div>
+    </form>
+</div>
+<div id="search-results">
+    <h1> Auctions </h1>
+    <div class="row">
+        {% for item in items %}
+        <div class="col">
+            <img class="rounded-circle article-img" src="{{ item.user.profile_pic.url }}">
+            <div class="media-body">
+                <div class="article-metadata">
+                    <a class="mr-2" href="#">{{ item.user }}</a>
+                    <small class="text-muted">{{ item.start_datetime|date:"F d, Y" }}</small>
+                </div>
+                <h2><a href="{% url 'webay:item-detail' item.id %}">{{ item.title }}</a></h2>
+                <img src="{{ item.item_pic.url }}" height="200px" width="250px">
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

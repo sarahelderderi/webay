@@ -1,0 +1,58 @@
+{% extends 'webay/base.html' %}
+{% block body_block %}
+<div class="row" id="itemRow" item_id="{{ auction_item.id }}">
+    <div class="col-sm pb-2">
+        <img class="rounded-circle article-img" src="{{ auction_item.author.profile.image.url }}">
+        <div class="media-body">
+            <div class="article-metadata">
+                <a class="mr-2" href="#">{{ auction_item.user }}</a>
+                <small class="text-muted">{{ auction_item.start_datetime|date:"F d, Y" }}</small>
+                <h2 class="article-title">{{ auction_item.title }}</h2>
+                <img src="{{ auction_item.item_pic.url }}" height="300" width="300">
+                <p class="article-content">{{ auction_item.description }}</p>
+                {% if auction_ended %}
+                <p> The auction ended on {{ auction_item.end_datetime }}.</p>
+                {% else %}
+                <p>Time left: <b>{{ auction_item.end_datetime|timeuntil:auction_item.start_datetime }}</b></p>
+            </div>
+
+            <div id="bidConditionalContent" auction_end="{{ auction_item.end_datetime|date:'F d, Y' }}">
+                {% if auction_item.user == user %}
+                <div>
+                    <button class="btn btn-danger deleteItemBtn">Delete</button>
+                </div>
+                {% elif user.is_anonymous%}
+
+                <p> You need to log in to be able to bid!</p>
+
+                {% else %}
+
+                <form id="bidForm" method="POST">
+                    {% csrf_token %}
+                    <br>
+                    <p>{{user}}, enter your bid!</p>
+                    Bid Amount : <input type="number" step="0.01" id="bidAmount" min="{{ auction_item.base_price }}">
+                    <button class="btn btn-info" type="submit" name="submit"> Bid</button>
+                </form>
+                {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-sm">
+        <table id="biddingList" class="table">
+            <thead>
+            <tr>
+                <th scope="col">User:</th>
+                <th scope="col">Amount:</th>
+                <th scope="col">Date/Time:</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script defer src="/static/js/bidding.js" charset="utf-8"></script>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'webay/base.html' %}
+{% block body_block %}
+<div class="row">
+    <h1> Current auctions: </h1>
+</div>
+<div class="row">
+    <div id="itemCarouselControls" align="center" class="col carousel slide" data-ride="carousel"
+         data-interval="3000">
+        <div class="carousel-inner">
+            {% for item in items %}
+            <div class="carousel-item {% if forloop.counter == 1 %}active{% endif %}"
+                 id="slide{{ forloop.counter }}">
+                <div class="container">
+                    <img class="rounded-circle article-img" src="{{ item.user.profile_pic.url }}">
+                    <div class="media-body">
+                        <div class="article-metadata">
+                            <a class="mr-2" href="#">{{ item.user }}</a>
+                            <small class="text-muted">{{ item.start_datetime|date:"F d, Y" }}</small>
+                        </div>
+                        <h2><a href="{% url 'webay:item-detail' item.id %}">{{ item.title }}</a></h2>
+                        <img src="{{ item.item_pic.url }}" height="300px" width="300px">
+                        <br>
+                        <p><b>£{{ item.base_price }}</b></p>
+                        <p>Time left: <b>{{ item.end_datetime|timeuntil:item.start_datetime }}</b></p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <a class="carousel-control-prev" href="#itemCarouselControls" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#itemCarouselControls" role="button" data-slide="next">
+            <span class="text-dark carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+</div>
+
+{% endblock %}

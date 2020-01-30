@@ -1,0 +1,12 @@
+{% extends 'webay/base_profile.html' %}
+{% block content %}
+{% load crispy_forms_tags %}
+<form id="updateProfileDetails" enctype="multipart/form-data" method="POST">
+    {% csrf_token %}
+    {{ user_form|crispy }}
+    {{ profile_form|crispy }}
+    <input class="btn btn-outline-info text-info my-sm-2" type="submit" value="Save">
+</form>
+
+<script defer src="/static/js/profile-script.js" charset="utf-8"></script>
+{% endblock %}
